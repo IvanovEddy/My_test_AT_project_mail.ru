@@ -3,26 +3,30 @@ import json
 
 from pages.base_page import BasePage
 
-mail_link_lc = (By.CSS_SELECTOR, ".ph-project.svelte-1a5kxdz:nth-of-type(2)")
-email_input_lc = (By.CSS_SELECTOR, ".email-input")
-password_input_lc = (By.CSS_SELECTOR, ".password-input")
-
 
 class MainPage(BasePage):
-    def login_user(self, driver):
-        with open('files/userdata.json', 'r') as userdata:
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.password_input = lambda: self.driver.find_element(By.CSS_SELECTOR, '.password-input')
+        self.email_input = lambda: self.driver.find_element(By.CSS_SELECTOR, '.email-input')
+        self.login_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-testid="login-to-mail"]')
+        self.mail_link = lambda: driver.find_element(By.CSS_SELECTOR, '.ph-project.svelte-1a5kxdz:nth-of-type(2)')
+        self.submit_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-testid="enter-password"]')
+
+    short_url = ""
+
+    def login_user(self):
+        with open('../userdata.json', 'r') as userdata:
             data = json.loads(userdata.read())
             email = data['email']
             password = data['password']
 
-        email_input = driver.find_element(email_input_lc)
-        email_input.send_keys(f"{email}")
-        password_input = driver.find_element(password_input_lc)
-        password_input.send_keys(f"{password}")
+        self.wait_for(lambda driver: self.email_input().is_enabled() and self.email_input().is_displayed())
+        self.email_input().send_keys(f"{email}")
+        self.submit_button().click()
+        self.wait_for(lambda driver: self.password_input().is_enabled() and self.password_input().is_displayed())
+        self.password_input().send_keys(f"{password}")
+        self.login_button().click()
 
-    def go_to_mail_page(self, driver):
-        mail_link = driver.find_element(mail_link_lc)
-        mail_link.click()
-
-
-
+    def go_to_mail_page(self):
+        self.mail_link().click()

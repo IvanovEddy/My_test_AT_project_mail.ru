@@ -1,14 +1,24 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
 
+from config_test import Config
+
 
 class BasePage:
-    base_url = "https://mail.ru/"
+    email = ""
+    password = ""
+    base_url = ""
     short_url = ""
-    url = base_url + short_url
+
 
     def __init__(self, driver):
         self.driver = driver
+        self.config = Config()
+        self.base_url = self.config.base_url
+        self.email = self.config.email
+        self.password = self.config.password
+        self.name = self.config.name
+        self.url = self.base_url + self.short_url
 
     def open(self):
         self.driver.get(self.url)
@@ -22,3 +32,6 @@ class BasePage:
         except NoSuchElementException:
             return False
         return True
+
+    def validate_url(self):
+        assert self.url in self.driver.current_url

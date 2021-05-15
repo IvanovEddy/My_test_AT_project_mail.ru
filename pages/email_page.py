@@ -1,5 +1,3 @@
-import time
-
 from selenium.webdriver.common.by import By
 
 
@@ -25,18 +23,22 @@ class EmailPage(BasePage):
         self.short_url = "/inbox/"
 
     def is_email_page(self):
+        """Проверяет является ли страницей электронной почты"""
         self.wait_for_element_display_and_enable(self.write_new_email_button)
         self.validate_url()
         self.should_be_emails_dataset()
         self.should_be_send_email_button()
 
     def should_be_emails_dataset(self):
+        """Проверяет наличие писем на странице"""
         assert self.is_element_present(self.letter_list()) is not None, "Не отображает письма"
 
     def should_be_send_email_button(self):
+        """Проверяет наличие кнопки 'Написать письмо'"""
         assert self.is_element_present(self.write_new_email_button()) is not None, "Нет кнопки отправить сообщение"
 
     def user_is_authorised(self):
+        """Проверяет что пользователь авторизован под верными данными"""
         self.wait_for_element_display_and_enable(self.dropdown_auth_button)
         self.dropdown_auth_button().click()
         self.wait_for_element_display_and_enable(self.auth_user_name)
@@ -44,6 +46,7 @@ class EmailPage(BasePage):
         assert self.auth_user_email().text == f'{self.email}', "Отображается неверный email"
 
     def send_new_email(self):
+        """Отправляет новое письмо"""
         self.wait_for_element_display_and_enable(self.write_new_email_button)
         self.write_new_email_button().click()
         self.wait_for_element_display_and_enable(self.email_body_textbox)
@@ -55,6 +58,7 @@ class EmailPage(BasePage):
         self.close_email_was_sent_msg_button().click()
 
     def go_to_sent_emails(self):
+        """Переход на страницу 'Отправленные'"""
         self.wait_for_element_display_and_enable(self.sent_letters_button)
         self.sent_letters_button().click()
 

@@ -10,7 +10,6 @@ class BasePage:
     base_url = ""
     short_url = ""
 
-
     def __init__(self, driver):
         self.driver = driver
         self.config = Config()
@@ -19,19 +18,22 @@ class BasePage:
         self.password = self.config.password
         self.name = self.config.name
 
-
     @property
     def url(self):
         return self.base_url + self.short_url
 
     def open(self):
+        """Открывает нужную url страницу"""
         self.driver.get(self.url)
 
-
     def wait_for_true(self, bool_condition):
+        """Ожидание какого-либо условия
+        :param bool_condition: функция-условие
+        """
         WebDriverWait(self.driver, 10).until(bool_condition)
 
     def wait_for_element_display_and_enable(self, element_func):
+        """Ожидание пока эелемент не станет отображен и доступен"""
         def is_element_present(driver):
             try:
                 element_func()
@@ -44,8 +46,8 @@ class BasePage:
 
         WebDriverWait(self.driver, 10).until(is_element_present)
 
-
     def is_element_present(self, element):
+        """Проверка наличия элемента"""
         try:
             element
         except NoSuchElementException:

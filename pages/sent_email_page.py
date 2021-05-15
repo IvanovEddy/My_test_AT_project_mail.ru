@@ -13,11 +13,13 @@ class SentEmailPage(EmailPage):
         self.letter_body = lambda: self.driver.find_element(By.XPATH, '//div[contains(@class, "cl_")]/div[1]')
 
     def is_sent_email_page(self):
+        """Проверяет является ли страницей 'Отправленные' email"""
         self.wait_for_true(lambda driver: "Отправленные" in self.menu_name().get_attribute('title'))
         self.validate_url()
         assert self.is_element_present(self.letter_list()) is not None, "Не отображает письма"
 
     def last_sent_email_is_correct(self):
+        """Проверяет последнее отправленное письмо на соотвествие отправителя, получателя и тела письма"""
         self.wait_for_true(lambda driver: "Отправленные" in self.menu_name().get_attribute('title'))
         self.last_sent_letter().click()
         self.wait_for_element_display_and_enable(self.letter_contact)

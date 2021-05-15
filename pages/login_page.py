@@ -10,11 +10,10 @@ class LoginPage(BasePage):
         self.email_enter_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-test-id="next-button"]')
         self.submit_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-test-id="submit-button"]')
         self.password_input = lambda: self.driver.find_element(By.CSS_SELECTOR, '[name="password"]')
-        self.base_url="https://account.mail.ru/"
-
+        self.base_url = "https://account.mail.ru/"
 
     def login_user(self):
-
+        """Авторизует пользователя на странице авторизации"""
         self.wait_for_element_display_and_enable(self.email_input)
         self.email_input().send_keys(f"{self.email}")
         self.email_enter_button().click()
@@ -23,6 +22,7 @@ class LoginPage(BasePage):
         self.submit_button().click()
 
     def is_login_page(self):
+        """Проверяет является ли страницей логина"""
         self.wait_for_element_display_and_enable(self.email_input)
         assert self.is_element_present(self.email_input()) is not None
         assert self.is_element_present(self.email_enter_button()) is not None

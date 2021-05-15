@@ -13,7 +13,7 @@ class MainPage(BasePage):
         self.submit_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-testid="enter-password"]')
 
     def login_user(self):
-
+        """Авторизует пользователя на главной странице"""
         self.wait_for_element_display_and_enable(self.email_input)
         self.email_input().send_keys(f"{self.email}")
         self.submit_button().click()
@@ -22,4 +22,5 @@ class MainPage(BasePage):
         self.email_enter_button().click()
 
     def go_to_mail_page(self):
+        """Переход на страницу email"""
         self.mail_link().click()

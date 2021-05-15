@@ -12,14 +12,12 @@ class MainPage(BasePage):
         self.mail_link = lambda: driver.find_element(By.CSS_SELECTOR, '.ph-project.svelte-1a5kxdz:nth-of-type(2)')
         self.submit_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-testid="enter-password"]')
 
-    short_url = ""
-
     def login_user(self):
 
-        self.wait_for(lambda driver: self.email_input().is_enabled() and self.email_input().is_displayed())
+        self.wait_for_element_display_and_enable(self.email_input)
         self.email_input().send_keys(f"{self.email}")
         self.submit_button().click()
-        self.wait_for(lambda driver: self.password_input().is_enabled() and self.password_input().is_displayed())
+        self.wait_for_element_display_and_enable(self.password_input)
         self.password_input().send_keys(f"{self.password}")
         self.email_enter_button().click()
 

@@ -18,13 +18,32 @@ class BasePage:
         self.email = self.config.email
         self.password = self.config.password
         self.name = self.config.name
-        self.url = self.base_url + self.short_url
+
+
+    @property
+    def url(self):
+        return self.base_url + self.short_url
 
     def open(self):
         self.driver.get(self.url)
 
-    def wait_for(self, element):
-        WebDriverWait(self.driver, 10).until(element)
+
+    def wait_for_true(self, bool_condition):
+        WebDriverWait(self.driver, 10).until(bool_condition)
+
+    def wait_for_element_display_and_enable(self, element_func):
+        def is_element_present(driver):
+            try:
+                element_func()
+                if element_func().is_enabled() and element_func().is_displayed():
+                    return True
+                else:
+                    return False
+            except NoSuchElementException:
+                return False
+
+        WebDriverWait(self.driver, 10).until(is_element_present)
+
 
     def is_element_present(self, element):
         try:

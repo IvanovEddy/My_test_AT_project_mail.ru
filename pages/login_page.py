@@ -10,7 +10,7 @@ class LoginPage(BasePage):
         self.email_enter_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-test-id="next-button"]')
         self.submit_button = lambda: self.driver.find_element(By.CSS_SELECTOR, '[data-test-id="submit-button"]')
         self.password_input = lambda: self.driver.find_element(By.CSS_SELECTOR, '[name="password"]')
-        self.base_url="2"
+        self.base_url="https://account.mail.ru/"
 
 
     def login_user(self):

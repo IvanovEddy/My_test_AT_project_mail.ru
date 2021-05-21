@@ -10,5 +10,5 @@ class Config:
         self.base_url = "https://mail.ru/"
 
     def read_file(self):
-        with open('../userdata.json', 'r', encoding='utf-8') as userdata:
+        with open('C:/Users/Eduard/My_test_AT_project_mail.ru/userdata.json', 'r', encoding='utf-8') as userdata:
             return json.loads(userdata.read())
